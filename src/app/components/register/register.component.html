@@ -1,6 +1,15 @@
 <div class="col-md-12 mt-3">
   <h1>{{ page_title }}</h1>
-  <p>Regístrate en nuestra plataforma para crear nuevas entradas y mucho más!!</p>
+  <p *ngIf=" status != 'success'">
+      Regístrate en nuestra plataforma para crear nuevas entradas y mucho más!!
+    </p>
+    <div class="alert alert-success col-md-5 mt-3" *ngIf="status == 'success'">
+        El registro se ha completado correctamente <a [routerLink]="['/login']">Loguéate aquí</a>
+    </div>
+
+    <div class="alert alert-danger col-md-5 mt-3" *ngIf="status == 'error'">
+        El registro no ha completado correctamente, vuelve a intentar más tarde
+    </div>
 
     <!-- Formulario de registro con agregados angular, cada campo va a modificar una propiedad del modelo que tengo dentro del componente -->
     <form class="col-md-5 ml-0 pl-0" #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
