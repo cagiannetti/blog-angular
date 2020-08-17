@@ -14,7 +14,14 @@ export class UserEditComponent implements OnInit {
   public user: User; //utilizo el modelo de usuario
   public identity;
   public token;
-  public status;
+  public status:string;
+  public froala_options:Object={
+    charCounterCount: true,
+    toolBarButtons:['bold','italic','underline','paragraphFormat','alert'],
+    toolBarButtonsXS:['bold','italic','underline','paragraphFormat','alert'],
+    toolBarButtonsSm:['bold','italic','underline','paragraphFormat','alert'],
+    toolBarButtonsMD:['bold','italic','underline','paragraphFormat','alert']
+  };
 
   constructor(
     private _userService: UserService
@@ -47,6 +54,7 @@ export class UserEditComponent implements OnInit {
           console.log(response);
           console.log(response.changes);
           this.status = 'sucess';
+          //console.log('variable status' + this.status);
           
           //Actualizar usuario en session y en localstorage
           if(response.changes.name){
