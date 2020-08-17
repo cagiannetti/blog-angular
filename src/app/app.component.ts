@@ -1,5 +1,6 @@
 import { Component, OnInit, DoCheck } from '@angular/core'; //onInit permite hacer algo al inicio y docheck hacer algo cuando hay algún cambio en la aplicacion
 import { UserService } from './services/user.service'; //importo el servicio de usuario
+import { global }from './services/global'; //importo global para poder saber la url del proyecto
 
 @Component({
   selector: 'app-root',
@@ -11,11 +12,13 @@ export class AppComponent implements OnInit, DoCheck{
   public title = 'blog-angular';
   public identity;
   public token;
+  public url;
 
   constructor(
     public _userService: UserService //creo la propiedad _userService de tipo UserService
   ){
-    this.loadUser();    
+    this.loadUser();
+    this.url = global.url;
   }
 
   ngOnInit(){// se ejecuta siempre

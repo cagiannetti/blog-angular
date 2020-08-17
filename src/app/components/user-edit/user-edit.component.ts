@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user'; //importo el modelo de usuario
 import { UserService } from '../../services/user.service'; //para tener acceso a getIdentity y getToken
+import { global } from '../../services/global'; //para obtener la ruta global de la app
 
 @Component({
   selector: 'app-user-edit',
@@ -15,6 +16,8 @@ export class UserEditComponent implements OnInit {
   public identity;
   public token;
   public status:string;
+  public url;
+
   public froala_options:Object={
     charCounterCount: true,
     toolBarButtons:['bold','italic','underline','paragraphFormat','alert'],
@@ -23,6 +26,30 @@ export class UserEditComponent implements OnInit {
     toolBarButtonsMD:['bold','italic','underline','paragraphFormat','alert']
   };
 
+  public afuConfig = { //configuración de angular file uploader que utilizaremos para subir la foto del avatar
+    multiple: false,
+    formatsAllowed: ".jpg,.png,.gif, .jpeg",
+    maxSize: "50",
+
+    uploadAPI:  {
+      url: global.url+'user/upload',
+      method:"POST",
+      headers: {
+     "Authorization" : this._userService.getToken()
+      },
+      params: {
+        'page': '1'
+      },
+      responseType: 'blob',
+    },
+    theme: "attachPin",
+    hideProgressBar: false,
+    hideResetBtn: false,
+    hideSelectBtn: false,
+    fileNameIndex: true, 
+    attachPinText: 'Sube tu avatar de usuario'
+};
+
   constructor(
     private _userService: UserService
   ) { 
@@ -30,6 +57,7 @@ export class UserEditComponent implements OnInit {
     this.user = new User(1, '', '', 'ROLE_USER', '', '', '',''); //creo una instancia del objeto user con propiedades por default que se van a modificar desde el form
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
+    this.url = global.url; //cargo en la propiedad url del método actual la url del proyecto
     
     //Rellenar objeto usuario
     this.user = new User(
@@ -88,6 +116,12 @@ export class UserEditComponent implements OnInit {
         console.log(<any>error);
       }
     );
+  }
+
+  avatarUpload(datos){ //este método es invocado desde el componente afu que sube la imágen, sirve para agregar la imágen al objeto de usuario que luego será enviado
+    console.log(JSON.parse(datos.response)); //guardo lo que me responde el backend parseado para poder extraer cosas
+    let data = JSON.parse(datos.response); //guardo lo que me responde el backend parseado para poder extraer cosas
+    this.user.image = data.image; //agrego al objeto la imagen
   }
 
 }
