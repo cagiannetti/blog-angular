@@ -40,7 +40,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="#">Crear entrada</a>
-            <a class="dropdown-item" href="#">Crear categoría</a>
+            <a class="dropdown-item" [routerLink]="['/crear-categoria']">Crear categoría</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Mi perfil</a>
             <a class="dropdown-item" [routerLink]="['/ajustes']">Ajustes</a>
@@ -53,4 +53,11 @@
   </nav>
   <!-- CONTENIDO -->
 <router-outlet></router-outlet>
+
+
+<footer>
+  <hr>
+  Master en desarrollo web full-stack &copy;
+</footer>
+
 </div>
