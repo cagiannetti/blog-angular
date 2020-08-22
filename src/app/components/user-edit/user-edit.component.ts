@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user'; //importo el modelo de usuario
-import { UserService } from '../../services/user.service'; //para tener acceso a getIdentity y getToken
+import { UserService } from '../../services/user.service'; //se comunica con la API, me permite tener acceso a getIdentity y getToken
 import { global } from '../../services/global'; //para obtener la ruta global de la app
 
 @Component({
@@ -81,7 +81,7 @@ export class UserEditComponent implements OnInit {
           
           console.log(response);
           console.log(response.changes);
-          this.status = 'sucess';
+          this.status = 'success';
           //console.log('variable status' + this.status);
           
           //Actualizar usuario en session y en localstorage
