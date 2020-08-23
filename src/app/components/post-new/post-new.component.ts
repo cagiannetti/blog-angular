@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { CategoryService } from '../../services/category.service';
+import { PostService } from '../../services/post.service';
 import { Post } from '../../models/post'; //se necesita para poder crear objetos desde el form
 import { User } from 'src/app/models/user';
 import { global } from '../../services/global';
@@ -10,7 +11,7 @@ import { global } from '../../services/global';
   selector: 'app-post-new',
   templateUrl: './post-new.component.html',
   styleUrls: ['./post-new.component.css'],
-  providers: [UserService, CategoryService]
+  providers: [UserService, CategoryService, PostService]
 })
 export class PostNewComponent implements OnInit {
 
@@ -20,8 +21,9 @@ export class PostNewComponent implements OnInit {
   public post: Post; //objeto de tipo post
   public categories;
   public status;
+  public resetVar = true; //para afu
 
-  public afuConfig = { //configuración de angular file uploader que utilizaremos para subir la foto del avatar
+  public afuConfig = { //configuración de angular file uploader que utilizaremos para subir la foto del post
     multiple: false,
     formatsAllowed: ".jpg, .png,.gif, .jpeg",
     maxSize: "50",
@@ -49,7 +51,8 @@ export class PostNewComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _userService: UserService,
-    private _categoryService: CategoryService
+    private _categoryService: CategoryService,
+    private _postService: PostService
   ){ 
     this.page_title = "Crear una entrada.";
     this.identity = this._userService.getIdentity();
@@ -84,9 +87,21 @@ export class PostNewComponent implements OnInit {
   }
   
   onSubmit(form){
-    console.log(this.post);
+    this._postService.create(this.token, this.post).subscribe(
+      response => {
+        if (response.status == 'success'){
+          this.post = response.post;
+          this.status = 'success';
+          this._router.navigate(['/inicio']);
+        }else{
+          this.status = 'error';
+        }
+      },
+      error => {
+        console.log(error); 
+        this.status = 'error';
+      }
+    );
   }
-
-
 
 }

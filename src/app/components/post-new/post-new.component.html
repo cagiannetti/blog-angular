@@ -1,13 +1,21 @@
 <div class="col-md-12 mt-3">
     <h1>{{ page_title }}</h1>
     
-    <p *ngIf=" status != 'success'">
+    <p *ngIf="status != 'success'">
       Añade un nuevo artículo al blog.
     </p>
 
     <hr>
     
     <!-- Mensajes de alerta -->
+
+    <div class="alert alert-success col-md-5 mt-3" *ngIf="status == 'success'">
+        Datos guardados correctamente !!
+    </div>
+
+    <div class="alert alert-danger col-md-5 mt-3" *ngIf="status == 'error'">
+        Los datos no se han guardado !!
+    </div>
 
     <!-- Formulario de crear entrada -->
 
@@ -39,7 +47,7 @@
         <label for="image">Imágen</label>
         <angular-file-uploader 
             [config]="afuConfig"
-            [resetUpload]="false"
+            [resetUpload]=resetVar
             (ApiResponse)="imageUpload($event)">
         </angular-file-uploader>
       </div>

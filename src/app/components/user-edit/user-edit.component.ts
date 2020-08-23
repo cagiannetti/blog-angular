@@ -17,14 +17,15 @@ export class UserEditComponent implements OnInit {
   public token;
   public status:string;
   public url;
+  public resetVar = true; //para afu en vista necesita esta variable
 
-  public froala_options:Object={
+  /*public froala_options:Object={
     charCounterCount: true,
     toolBarButtons:['bold','italic','underline','paragraphFormat','alert'],
     toolBarButtonsXS:['bold','italic','underline','paragraphFormat','alert'],
     toolBarButtonsSm:['bold','italic','underline','paragraphFormat','alert'],
     toolBarButtonsMD:['bold','italic','underline','paragraphFormat','alert']
-  };
+  };*/
 
   public afuConfig = { //configuración de angular file uploader que utilizaremos para subir la foto del avatar
     multiple: false,

@@ -1,7 +1,7 @@
 <div class="col-md-12 mt-3">
     <h1>{{ page_title }}</h1>
 
-    <p *ngIf=" status != 'success'">
+    <p *ngIf="status != 'success'">
         Modifica tus datos personales de usuario.
     </p>
     <hr/>
@@ -61,7 +61,7 @@
 
         <angular-file-uploader 
             [config]="afuConfig"
-            [resetUpload]="false"
+            [resetUpload]=resetVar
             (ApiResponse)="avatarUpload($event)">
         </angular-file-uploader>
         </div>
