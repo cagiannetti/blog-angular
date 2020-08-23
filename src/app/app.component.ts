@@ -44,7 +44,7 @@ export class AppComponent implements OnInit, DoCheck{
       response => {
         if(response.status == 'success'){
           this.categories = response.categories;
-          console.log(this.categories);
+          //  console.log(this.categories);
         }
       },
       error => {
