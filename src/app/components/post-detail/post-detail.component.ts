@@ -24,19 +24,18 @@ export class PostDetailComponent implements OnInit {
   }
 
   getPost(){
-    
     //Sacar el id del post de la url
     this._route.params.subscribe(
       params => {
          let id = +params['id']; //extraigo la id del arreglo params URL el + sirve para convertirlo a integer, por default es string
-         console.log(id);
+         //console.log(id);
 
         //Hacer petición ajax para sacar los datos
         this._postService.getPost(id).subscribe(
           response => {
             if(response.status=='success'){
               this.post = response.post;
-              console.log(this.post); 
+              //console.log(this.post); 
 
             }else{
               this._router.navigate(['/inicio']);
@@ -49,9 +48,6 @@ export class PostDetailComponent implements OnInit {
         );
 
     });
-    
-
-
   }
 
 }

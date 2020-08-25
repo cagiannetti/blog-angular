@@ -7,13 +7,13 @@ import { Post } from '../../models/post'; //se necesita para poder crear objetos
 import { User } from 'src/app/models/user';
 import { global } from '../../services/global';
 
+
 @Component({
-  selector: 'app-post-new',
-  templateUrl: './post-new.component.html',
-  styleUrls: ['./post-new.component.css'],
+  selector: 'app-post-edit',
+  templateUrl: '../post-new/post-new.component.html',
   providers: [UserService, CategoryService, PostService]
 })
-export class PostNewComponent implements OnInit {
+export class PostEditComponent implements OnInit {
 
   public page_title:string;
   public identity;
@@ -55,17 +55,18 @@ export class PostNewComponent implements OnInit {
     private _categoryService: CategoryService,
     private _postService: PostService
   ){ 
-    this.page_title = "Crear una entrada.";
+    this.page_title = "Editar entrada.";
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
-    this.is_edit = false;
+    this.is_edit = true;
   }
 
   ngOnInit(): void {
     //console.log(this.identity);
     this.getCategories(); //se llama desde el principio para poder llenar el select
     this.post = new Post(1, this.identity.sub, 1, '', '', null, null); //lleno el nuevo con la plantilla de datos del modelo de post: id, user_id, category_id, title, content, image, createdAt
-    //console.log(this.post);
+    this.getPost();
+
   }
 
   getCategories(){
@@ -82,6 +83,33 @@ export class PostNewComponent implements OnInit {
     );
   }
 
+  getPost(){
+    //Sacar el id del post de la url
+    this._route.params.subscribe(
+      params => {
+         let id = +params['id']; //extraigo la id del arreglo params URL el + sirve para convertirlo a integer, por default es string
+         //console.log(id);
+
+        //Hacer petición ajax para sacar los datos
+        this._postService.getPost(id).subscribe(
+          response => {
+            if(response.status=='success'){
+              this.post = response.post;
+              //console.log(this.post); 
+
+            }else{
+              this._router.navigate(['/inicio']);
+            }
+          },
+          error=> {
+            console.log(error);
+            this._router.navigate(['/inicio']);
+          }
+        );
+
+    });
+  }
+
   imageUpload(data){ //este método es invocado desde el componente afu que sube la imágen, sirve para agregar la imágen al objeto de post que luego será enviado
     console.log(JSON.parse(data.response)); //guardo lo que me responde el backend parseado para poder extraer cosas
     let image_data = JSON.parse(data.response); //guardo lo que me responde el backend parseado para poder extraer cosas
@@ -89,21 +117,22 @@ export class PostNewComponent implements OnInit {
   }
   
   onSubmit(form){
-    this._postService.create(this.token, this.post).subscribe(
+    this._postService.update(this.token, this.post, this.post.id).subscribe(
       response => {
-        if (response.status == 'success'){
-          this.post = response.post;
+        if(response.status == 'success'){
           this.status = 'success';
-          this._router.navigate(['/inicio']);
+          //this.post = response.post;
+          //redirigir a la página del post
+          this._router.navigate(['/entrada', this.post.id]);
         }else{
-          this.status = 'error';
+          this.status= 'error';
         }
       },
       error => {
-        console.log(error); 
-        this.status = 'error';
+        this.status= 'error';
+        console.log(error);
       }
-    );
+    )
   }
 
 }

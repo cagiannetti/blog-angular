@@ -1,1 +1,10 @@
-<p>post-detail works!</p>
+<div class="col-md-12" *ngIf="!post">
+Cargando...
+</div>
+
+<div class="col-md-12" *ngIf="post">
+<h1>{{post.title}}</h1>
+<p>{{post.category.name}} - {{post.user.name + ' ' + post.user.surname  }}</p>
+<hr>
+<p [innerHTML]="post.content"></p>
+</div>
