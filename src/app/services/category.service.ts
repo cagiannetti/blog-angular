@@ -33,5 +33,18 @@ export class CategoryService{ //como se va a llamar el servicio
 
         return this._http.get(this.url + 'category', {headers: headers}); //hace la petición get via ajax que devuelve todas las categorías
     }
+
+    
+    getCategory(id):Observable<any>{
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
+        return this._http.get(this.url + 'category/' + id, {headers: headers}); //hace la petición get via ajax que devuelve una categoría por su id
+    }
+
+    getPosts(id):Observable<any>{
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
+        return this._http.get(this.url + 'post/category/' + id, {headers: headers}); //hace la petición get via ajax que devuelve todos los posts de una categoría
+    }
 }
 
