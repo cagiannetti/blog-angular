@@ -23,6 +23,7 @@ export class PostEditComponent implements OnInit {
   public status;
   public is_edit: boolean;
   public resetVar = true; //para afu
+  public url: string;
 
   public afuConfig = { //configuración de angular file uploader que utilizaremos para subir la foto del post
     multiple: false,
@@ -59,6 +60,7 @@ export class PostEditComponent implements OnInit {
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
     this.is_edit = true;
+    this.url = global.url;
   }
 
   ngOnInit(): void {
@@ -94,8 +96,15 @@ export class PostEditComponent implements OnInit {
         this._postService.getPost(id).subscribe(
           response => {
             if(response.status=='success'){
+              
               this.post = response.post;
               //console.log(this.post); 
+              
+              if(this.post.user_id!==this.identity.sub){ //para evitar que usuario no identificado ingrese por URL
+                this._router.navigate(['/inicio']);  
+              }
+
+              
 
             }else{
               this._router.navigate(['/inicio']);

@@ -13,6 +13,7 @@ import { PostNewComponent} from './components/post-new/post-new.component';
 import { PostDetailComponent} from './components/post-detail/post-detail.component';
 import { PostEditComponent} from './components/post-edit/post-edit.component';
 import { CategoryDetailComponent } from './components/category-detail/category-detail.component';
+import { IdentityGuard } from './services/identity.guard'; //servicio que se fija si está el usuario autenticado para que no pueda entrar por url
 
 //DEFINIR RUTAS
 const appRoutes: Routes = [
@@ -21,11 +22,11 @@ const appRoutes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'logout/:sure', component: LoginComponent},
     {path: 'registro', component: RegisterComponent},
-    {path: 'ajustes', component: UserEditComponent},
-    {path: 'crear-categoria', component: CategoryNewComponent},
-    {path: 'crear-entrada', component: PostNewComponent},
+    {path: 'ajustes', component: UserEditComponent, canActivate: [IdentityGuard]},
+    {path: 'crear-categoria', component: CategoryNewComponent, canActivate: [IdentityGuard]},
+    {path: 'crear-entrada', component: PostNewComponent, canActivate: [IdentityGuard]},
     {path: 'entrada/:id', component:PostDetailComponent},
-    {path: 'editar-entrada/:id', component:PostEditComponent},
+    {path: 'editar-entrada/:id', component:PostEditComponent, canActivate: [IdentityGuard]},
     {path: 'categoria/:id', component:CategoryDetailComponent},
     {path: '**', component: ErrorComponent} //cuando la ruta sea cualquier cosa mandará la página de error
 ];

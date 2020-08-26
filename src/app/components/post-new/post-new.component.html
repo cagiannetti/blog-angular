@@ -48,6 +48,12 @@
 
       <div class="form-group">
         <label for="image">Imágen</label>
+        
+        <div *ngIf="post.image">
+        <!--<div *ngIf="is_edit && post.image">-->
+          <img src="{{ url + 'post/image/' + post.image }}" class="avatar_edit" />
+        </div> 
+
         <angular-file-uploader 
             [config]="afuConfig"
             [resetUpload]=resetVar

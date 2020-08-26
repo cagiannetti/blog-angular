@@ -23,6 +23,7 @@ export class PostNewComponent implements OnInit {
   public status;
   public is_edit: boolean;
   public resetVar = true; //para afu
+  public url:string;
 
   public afuConfig = { //configuración de angular file uploader que utilizaremos para subir la foto del post
     multiple: false,
@@ -59,6 +60,7 @@ export class PostNewComponent implements OnInit {
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
     this.is_edit = false;
+    this.url = global.url;
   }
 
   ngOnInit(): void {
