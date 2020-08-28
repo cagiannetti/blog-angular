@@ -2,9 +2,10 @@
 Cargando...
 </div>
 
-<div class="col-md-12" *ngIf="post">
-<h1>{{post.title}}</h1>
-<p>{{post.category.name}} - {{post.user.name + ' ' + post.user.surname  }}</p>
-<hr>
-<p [innerHTML]="post.content"></p>
+<div class="col-md-6" *ngIf="post">
+    <h1>{{post.title}}</h1>
+    <p>{{post.category.name}} - <a [routerLink]="['/perfil', post.user.id]">{{post.user.name + ' ' + post.user.surname  }}</a></p>
+    <hr>
+    <img src="{{ url + 'post/image/' + post.image }}" class="w-100">
+    <p [innerHTML]="post.content"></p>
 </div>

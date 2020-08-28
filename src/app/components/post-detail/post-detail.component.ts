@@ -2,22 +2,31 @@ import { Component, OnInit } from '@angular/core';
 import {Router, ActivatedRoute, Params} from '@angular/router';
 import { Post } from '../../models/post';
 import { PostService } from '../../services/post.service';
+import { global } from '../../services/global';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-post-detail',
   templateUrl: './post-detail.component.html',
   styleUrls: ['./post-detail.component.css'],
-  providers: [PostService]
+  providers: [PostService, UserService]
 })
 export class PostDetailComponent implements OnInit {
 
   public post: Post;
-
+  public url:string;
+  public identity;
+  
   constructor(
     private _postService:PostService,
     private _route:ActivatedRoute,
-    private _router:Router
-  ) { }
+    private _router:Router,
+    private _userService: UserService
+  ) {
+    this.url=global.url;
+      this.identity= this._userService.getIdentity();
+
+  }
 
   ngOnInit(): void {
     this.getPost();

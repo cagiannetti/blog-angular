@@ -11,6 +11,23 @@
     overflow: hidden;
 }
 
+.avatar_mask img{
+    height: 40px;
+}
+
+.avatar_mask_profile{
+    width:90px;
+    height:90px;
+    border-radius: 900px;
+    overflow: hidden;
+}
+
+.avatar_mask_proflile img{
+    height: 90px;
+}
+
+
+
 .avatar_nav{
     height:40px;
 }
